@@ -1,5 +1,5 @@
 import { IAuthService } from "../../controllers/Auth";
-import { generateJwt, generateRefreshToken } from "../../jwt";
+import { JWT, generateJwt, generateRefreshToken, verifyJwt } from "../../jwt";
 import { IRepository } from "../../repository";
 import ErrorService from "../ErrorService";
 import { validateLogin } from "./validate";
@@ -22,6 +22,20 @@ class AuthService implements IAuthService {
     });
 
     return { message: "Success", jwt, refreshToken };
+  };
+
+  refreshToken = async (token: string) => {
+    const { jwt, refreshToken } = await this.repository.startTransaction(async (transaction) => {
+      const jwt = (await verifyJwt(token)) as JWT;
+      const userResult = await this.repository.user.findUserById(jwt.id, transaction);
+
+      if (!userResult) throw new ErrorService(404, "User not found");
+
+      const [jwtResult, refreshToken] = await Promise.all([generateJwt({ id: userResult.id }), generateRefreshToken({ id: userResult.id })]);
+      return { jwt: jwtResult, refreshToken };
+    });
+
+    return { message: "Success", jwt: jwt, refreshToken };
   };
 }
 

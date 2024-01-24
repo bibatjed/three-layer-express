@@ -10,7 +10,8 @@ type UserDetails = {
 };
 export interface IUserRepository {
   registerUser: (userDetails: UserDetails, transaction: Transaction | null) => Promise<User>;
-  findUserByEmail: (email: string, transaction?: Transaction | null) => Promise<User | null>;
+  findUserByEmail: (email: string, transaction: Transaction | null) => Promise<User | null>;
+  findUserById: (id: number, transaction: Transaction | null) => Promise<User | null>;
 }
 
 class UserRepository implements IUserRepository {
@@ -26,6 +27,12 @@ class UserRepository implements IUserRepository {
       where: {
         email,
       },
+      transaction,
+    });
+  }
+
+  async findUserById(id: number, transaction: Transaction | null = null) {
+    return User.findByPk(id, {
       transaction,
     });
   }
