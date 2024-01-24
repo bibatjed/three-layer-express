@@ -1,5 +1,6 @@
 import { IUserService } from "../../controllers/User";
 import { IRepository } from "../../repository";
+import ErrorService from "../ErrorService";
 import { validateRegisterUser } from "./validate";
 class UserService implements IUserService {
   constructor(private readonly repository: IRepository) {}
@@ -8,10 +9,7 @@ class UserService implements IUserService {
     await this.repository.startTransaction(async (transaction) => {
       const userResult = await this.repository.user.findUserByEmail(userDetails.email, transaction);
       if (userResult) {
-        throw {
-          status: 422,
-          message: "User is already registered",
-        };
+        throw new ErrorService(422, "User is already registered");
       }
 
       await this.repository.user.registerUser(userDetails, transaction);

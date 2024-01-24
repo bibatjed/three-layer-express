@@ -1,12 +1,12 @@
 import dotenv from "dotenv";
 dotenv.config();
-import userRouter from "./routes/user";
+import router from "./routes";
 import initializeApplication from "./app";
 import sequelize from "./db";
 sequelize
   .authenticate()
   .then(() => {
-    const app = initializeApplication(userRouter);
+    const app = initializeApplication(router);
 
     app.listen(3000, () => {
       console.log("listening");

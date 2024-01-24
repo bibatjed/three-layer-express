@@ -1,5 +1,6 @@
 import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 import { ZodError } from "zod";
+import ErrorService from "../services/ErrorService";
 
 export default function (err: ErrorRequestHandler, req: Request, res: Response, next: NextFunction) {
   if (err instanceof ZodError) {
@@ -8,7 +9,14 @@ export default function (err: ErrorRequestHandler, req: Request, res: Response, 
       errors: err.flatten().fieldErrors,
     });
   }
-  res.status(500).json({
+
+  if (err instanceof ErrorService) {
+    return res.status(err.status).json({
+      message: err.message,
+    });
+  }
+
+  return res.status(500).json({
     message: "Something went wrong",
   });
 }
