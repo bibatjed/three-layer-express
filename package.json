@@ -7,8 +7,8 @@
     "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
-    "test": "jest",
-    "test:coverage": "jest --coverage"
+    "test": "jest tests/*",
+    "test:coverage": "jest tests/ --coverage"
   },
   "keywords": [],
   "author": "",

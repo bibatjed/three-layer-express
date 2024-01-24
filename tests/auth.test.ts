@@ -2,6 +2,7 @@ import { IAuthService } from "../src/controllers/Auth";
 import { IRepository } from "../src/repository";
 import ErrorService from "../src/services/ErrorService";
 import AuthService from "../src/services/auth/Auth";
+//@ts-ignore
 import initRepositoryMock from "./repository.mock";
 import { generateJwt, generateRefreshToken } from "../src/jwt";
 import { ZodError } from "zod";
