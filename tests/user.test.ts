@@ -1,25 +1,17 @@
-import { Transaction } from "sequelize";
 import { IRepository } from "../src/repository";
 import UserService from "../src/services/user/User";
 import { IUserService } from "../src/controllers/User";
 import { ZodError } from "zod";
 import ErrorService from "../src/services/ErrorService";
+//@ts-ignore
+import initRepositoryMock from "./repository.mock";
 
 describe("User Service", () => {
   describe("User Registration", () => {
     let userService: IUserService;
     let repository: IRepository;
     beforeAll(() => {
-      repository = {
-        startTransaction: (callback) => {
-          return Promise.resolve(callback({} as Transaction));
-        },
-        user: {
-          findUserByEmail: jest.fn(),
-          registerUser: jest.fn(),
-          findUserById: jest.fn(),
-        },
-      };
+      repository = initRepositoryMock();
       userService = new UserService(repository);
     });
 
@@ -33,8 +25,7 @@ describe("User Service", () => {
     describe("User Registration Server Validation", () => {
       it("should throw an error if user is already registered", async () => {
         try {
-          //@ts-expect-error
-          repository.user.findUserByEmail.mockResolvedValueOnce({ id: "1" });
+          (repository.user.findUserByEmail as jest.Mock).mockResolvedValueOnce({ id: "1" });
           await userService.register({ email: "registered@gmail.com", password: "12345678", firstName: "hello", lastName: "hello", middleName: "" });
         } catch (e) {
           if (e instanceof ErrorService) {

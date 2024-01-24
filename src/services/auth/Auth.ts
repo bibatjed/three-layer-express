@@ -23,7 +23,6 @@ class AuthService implements IAuthService {
 
     return { message: "Success", jwt, refreshToken };
   };
-
   refreshToken = async (token: string) => {
     const { jwt, refreshToken } = await this.repository.startTransaction(async (transaction) => {
       const jwt = (await verifyJwt(token)) as JWT;
