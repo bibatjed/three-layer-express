@@ -1,7 +1,7 @@
 import express from "express";
-import UserController from "../controllers/User";
-import UserService from "../services/user/User";
-import initializeRepository, { IRepository } from "../repository";
+import UserController from "src/controllers/User";
+import UserService from "src/services/user/User";
+import { IRepository } from "src/repository";
 const router = express.Router();
 
 export default function initializeUserRouter(repository: IRepository) {

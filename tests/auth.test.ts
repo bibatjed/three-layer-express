@@ -1,13 +1,13 @@
-import { IAuthService } from "../src/controllers/Auth";
-import { IRepository } from "../src/repository";
-import ErrorService from "../src/services/ErrorService";
-import AuthService from "../src/services/auth/Auth";
+import { IAuthService } from "@src/controllers/Auth";
+import { IRepository } from "@src/repository";
+import ErrorService from "@src/services/ErrorService";
+import AuthService from "@src/services/auth/Auth";
 //@ts-ignore
 import initRepositoryMock from "./repository.mock";
-import { generateJwt, generateRefreshToken } from "../src/jwt";
+import { generateJwt, generateRefreshToken } from "@src/jwt";
 import { ZodError } from "zod";
 
-jest.mock("../src/jwt");
+jest.mock("@src/jwt");
 
 describe("Auth Service", () => {
   describe("Login", () => {
@@ -27,8 +27,8 @@ describe("Auth Service", () => {
           },
         });
 
-        (generateJwt as jest.Mock).mockImplementationOnce(async () => "sample-token");
-        (generateRefreshToken as jest.Mock).mockImplementationOnce(async () => "sample-refresh-token");
+        (generateJwt as jest.Mock).mockImplementation(async () => "sample-token");
+        (generateRefreshToken as jest.Mock).mockImplementation(async () => "sample-refresh-token");
         const result = await authService.login({ email: "hello@gmail.com", password: "123456789" });
         expect(result).toMatchObject({
           message: "Success",

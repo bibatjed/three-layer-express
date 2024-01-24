@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { UserRequest } from "../middleware/authMiddleware";
 
 export interface IAuthService {
   login: (loginDetails: { email: string; password: string }) => Promise<{ message: string; jwt: string; refreshToken: string }>;

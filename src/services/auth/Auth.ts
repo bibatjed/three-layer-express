@@ -1,7 +1,7 @@
-import { IAuthService } from "../../controllers/Auth";
-import { JWT, generateJwt, generateRefreshToken, verifyJwt } from "../../jwt";
-import { IRepository } from "../../repository";
-import ErrorService from "../ErrorService";
+import { IAuthService } from "@src/controllers/Auth";
+import { JWT, generateJwt, generateRefreshToken, verifyJwt } from "@src/jwt";
+import { IRepository } from "@src/repository";
+import ErrorService from "@src/services/ErrorService";
 import { validateLogin } from "./validate";
 
 class AuthService implements IAuthService {

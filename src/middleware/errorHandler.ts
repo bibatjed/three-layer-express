@@ -1,6 +1,6 @@
 import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 import { ZodError } from "zod";
-import ErrorService from "../services/ErrorService";
+import ErrorService from "@src/services/ErrorService";
 
 export default function (err: ErrorRequestHandler, req: Request, res: Response, next: NextFunction) {
   if (err instanceof ZodError) {

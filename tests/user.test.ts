@@ -1,10 +1,11 @@
-import { IRepository } from "../src/repository";
-import UserService from "../src/services/user/User";
-import { IUserService } from "../src/controllers/User";
-import { ZodError } from "zod";
-import ErrorService from "../src/services/ErrorService";
+import { IRepository } from "@src/repository";
+import UserService from "@src/services/user/User";
+import { IUserService } from "@src/controllers/User";
+import ErrorService from "@src/services/ErrorService";
 //@ts-ignore
 import initRepositoryMock from "./repository.mock";
+
+import { ZodError } from "zod";
 
 describe("User Service", () => {
   describe("User Registration", () => {

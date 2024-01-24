@@ -1,5 +1,5 @@
-import { IUserService } from "../../controllers/User";
-import { IRepository } from "../../repository";
+import { IUserService } from "@src/controllers/User";
+import { IRepository } from "@src/repository";
 import ErrorService from "../ErrorService";
 import { validateRegisterUser } from "./validate";
 class UserService implements IUserService {

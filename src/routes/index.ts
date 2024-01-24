@@ -1,5 +1,5 @@
 import express from "express";
-import initializeRepository from "../repository";
+import initializeRepository from "@src/repository";
 import initializeUserRouter from "./user";
 import initializeAuthRouter from "./auth";
 

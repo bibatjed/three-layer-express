@@ -1,5 +1,5 @@
 import { Transaction } from "sequelize";
-import User from "../models/User";
+import User from "@src/models/User";
 
 type UserDetails = {
   firstName: string;
