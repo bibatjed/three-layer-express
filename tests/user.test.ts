@@ -1,7 +1,7 @@
 import { IRepository } from "@src/repository";
 import UserService from "@src/services/user/User";
 import { IUserService } from "@src/controllers/User";
-import ErrorService from "@src/services/ErrorService";
+import ErrorService from "@src/utils/ErrorService";
 //@ts-ignore
 import initRepositoryMock from "./repository.mock";
 

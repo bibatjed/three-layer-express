@@ -1,6 +1,6 @@
 import { IUserService } from "@src/controllers/User";
 import { IRepository } from "@src/repository";
-import ErrorService from "../ErrorService";
+import ErrorService from "../../utils/ErrorService";
 import { validateRegisterUser } from "./validate";
 class UserService implements IUserService {
   constructor(private readonly repository: IRepository) {}

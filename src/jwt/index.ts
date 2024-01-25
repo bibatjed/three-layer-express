@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import ErrorService from "../services/ErrorService";
+import ErrorService from "../utils/ErrorService";
 const secret = process.env.SECRET as string;
 
 export type JWT = { id: number } & jwt.JwtPayload;
