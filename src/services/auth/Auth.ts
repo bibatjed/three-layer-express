@@ -6,6 +6,7 @@ import { validateLogin } from "./validate";
 
 class AuthService implements IAuthService {
   constructor(private readonly repository: IRepository) {}
+
   login = async (loginDetails: { email: string; password: string }) => {
     validateLogin(loginDetails);
     const { jwt, refreshToken } = await this.repository.startTransaction(async (transaction) => {
@@ -23,6 +24,7 @@ class AuthService implements IAuthService {
 
     return { message: "Success", jwt, refreshToken };
   };
+
   refreshToken = async (token: string) => {
     const { jwt, refreshToken } = await this.repository.startTransaction(async (transaction) => {
       const jwt = (await verifyJwt(token)) as JWT;

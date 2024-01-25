@@ -4,20 +4,19 @@ import ErrorService from "@src/services/ErrorService";
 import AuthService from "@src/services/auth/Auth";
 //@ts-ignore
 import initRepositoryMock from "./repository.mock";
-import { generateJwt, generateRefreshToken } from "@src/jwt";
+import { generateJwt, generateRefreshToken, verifyJwt } from "@src/jwt";
 import { ZodError } from "zod";
 
 jest.mock("@src/jwt");
 
 describe("Auth Service", () => {
+  let authService: IAuthService;
+  let repository: IRepository;
+  beforeAll(() => {
+    repository = initRepositoryMock();
+    authService = new AuthService(repository);
+  });
   describe("Login", () => {
-    let authService: IAuthService;
-    let repository: IRepository;
-    beforeAll(() => {
-      repository = initRepositoryMock();
-      authService = new AuthService(repository);
-    });
-
     describe("Login Positive Path", () => {
       it("should generate a jwt token and refresh token", async () => {
         (repository.user.findUserByEmail as jest.Mock).mockResolvedValueOnce({
@@ -103,6 +102,45 @@ describe("Auth Service", () => {
           expect(errors).toMatchObject({ password: ["String must contain at least 8 character(s)"] });
         }
       }
+    });
+  });
+
+  describe("Refresh token", () => {
+    describe("Refresh token positive path", () => {
+      it("should generate token and refresh token", async () => {
+        (verifyJwt as jest.Mock).mockImplementation(async () => ({
+          id: 1,
+        }));
+
+        (repository.user.findUserById as jest.Mock).mockResolvedValueOnce({ id: 1 });
+
+        (generateJwt as jest.Mock).mockImplementation(async () => "sample-token");
+        (generateRefreshToken as jest.Mock).mockImplementation(async () => "sample-refresh-token");
+
+        const result = await authService.refreshToken("sample-token");
+        expect(result).toMatchObject({
+          message: "Success",
+          jwt: "sample-token",
+          refreshToken: "sample-refresh-token",
+        });
+      });
+    });
+
+    describe("Refresh token server side validation", () => {
+      it("should throw an error if user is not found", async () => {
+        try {
+          (verifyJwt as jest.Mock).mockImplementation(async () => ({
+            id: 1,
+          }));
+
+          (repository.user.findUserById as jest.Mock).mockResolvedValueOnce(null);
+          await authService.refreshToken("sample-token");
+        } catch (e) {
+          if (e instanceof ErrorService) {
+            expect(e).toMatchObject({ status: 404, message: "User not found" });
+          }
+        }
+      });
     });
   });
 });
