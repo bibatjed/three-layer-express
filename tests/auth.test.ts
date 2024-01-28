@@ -44,7 +44,7 @@ describe("Auth Service", () => {
           await authService.login({ email: "hello@gmail.com", password: "123456789" });
         } catch (e) {
           if (e instanceof ErrorService) {
-            expect(e).toMatchObject({ status: 400, message: "Invalid email or password" });
+            expect(e).toMatchObject({ status: 401, message: "Invalid email or password" });
           }
         }
       });
@@ -60,7 +60,7 @@ describe("Auth Service", () => {
           await authService.login({ email: "hello@gmail.com", password: "123456789" });
         } catch (e) {
           if (e instanceof ErrorService) {
-            expect(e).toMatchObject({ status: 400, message: "Invalid email or password" });
+            expect(e).toMatchObject({ status: 401, message: "Invalid email or password" });
           }
         }
       });

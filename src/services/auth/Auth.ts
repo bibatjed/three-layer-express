@@ -12,11 +12,11 @@ class AuthService implements IAuthService {
     const { jwt, refreshToken } = await this.repository.startTransaction(async (transaction) => {
       const userResult = await this.repository.user.findUserByEmail(loginDetails.email, transaction);
 
-      if (!userResult) throw new ErrorService(400, "Invalid email or password");
+      if (!userResult) throw new ErrorService(401, "Invalid email or password");
 
       const isPasswordCorrect = await userResult.comparePassword(loginDetails.password);
 
-      if (!isPasswordCorrect) throw new ErrorService(400, "Invalid email or password");
+      if (!isPasswordCorrect) throw new ErrorService(401, "Invalid email or password");
 
       const [jwt, refreshToken] = await Promise.all([generateJwt({ id: userResult.id }), generateRefreshToken({ id: userResult.id })]);
       return { jwt, refreshToken };

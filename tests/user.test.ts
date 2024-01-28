@@ -31,7 +31,7 @@ describe("User Service", () => {
         } catch (e) {
           if (e instanceof ErrorService) {
             expect(e).toMatchObject({
-              status: 422,
+              status: 409,
               message: "User is already registered",
             });
           }

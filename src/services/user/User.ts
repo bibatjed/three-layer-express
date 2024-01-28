@@ -9,7 +9,7 @@ class UserService implements IUserService {
     await this.repository.startTransaction(async (transaction) => {
       const userResult = await this.repository.user.findUserByEmail(userDetails.email, transaction);
       if (userResult) {
-        throw new ErrorService(422, "User is already registered");
+        throw new ErrorService(409, "User is already registered");
       }
 
       await this.repository.user.registerUser(userDetails, transaction);
