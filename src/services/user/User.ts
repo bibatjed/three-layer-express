@@ -15,7 +15,7 @@ class UserService implements IUserService {
       await this.repository.user.registerUser(userDetails, transaction);
     });
 
-    return { message: "User is registereds" };
+    return { message: "User is registered" };
   }
 }
 
