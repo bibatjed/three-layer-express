@@ -4,6 +4,7 @@ if (!connectionString) {
   throw new Error("connection string is undefined");
 }
 const sequelize = new Sequelize(connectionString, {
+  logging: false,
   dialect: "mysql",
 });
 
